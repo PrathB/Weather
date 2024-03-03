@@ -98,6 +98,16 @@ class MainActivity : AppCompatActivity() {
             Log.i("Latitude: ","$latitude")
             Log.i("Longitude: ","$longitude")
 
+            getLocationWeatherDetails()
+        }
+    }
+
+    private fun getLocationWeatherDetails(){
+        if(Constants.isNetworkAvailable(this)){
+            Toast.makeText(this,"Internet connection available",Toast.LENGTH_LONG).show()
+        }
+        else{
+            Toast.makeText(this,"No internet connection",Toast.LENGTH_LONG).show()
         }
     }
 }
