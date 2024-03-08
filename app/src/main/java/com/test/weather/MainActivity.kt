@@ -22,6 +22,14 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.permissionx.guolindev.PermissionX
 import com.test.weather.databinding.ActivityMainBinding
+import com.test.weather.models.WeatherResponse
+import com.test.weather.network.WeatherService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
@@ -98,13 +106,38 @@ class MainActivity : AppCompatActivity() {
             Log.i("Latitude: ","$latitude")
             Log.i("Longitude: ","$longitude")
 
-            getLocationWeatherDetails()
+            getLocationWeatherDetails(latitude!!,longitude!!)
         }
     }
 
-    private fun getLocationWeatherDetails(){
+    private fun getLocationWeatherDetails(latitude : Double, longitude : Double){
         if(Constants.isNetworkAvailable(this)){
-            Toast.makeText(this,"Internet connection available",Toast.LENGTH_LONG).show()
+            val retrofit: Retrofit = Retrofit.Builder().baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val service: WeatherService = retrofit.create<WeatherService>(WeatherService::class.java)
+            val listCall : Call<WeatherResponse> = service
+                .getWeather(latitude,longitude,Constants.METRIC_UNIT,Constants.API_KEY)
+
+            listCall.enqueue(object : Callback<WeatherResponse>{
+                override fun onResponse(
+                    call: Call<WeatherResponse>,
+                    response: Response<WeatherResponse>
+                ) {
+                    if(response.isSuccessful) {
+                        val weatherData: WeatherResponse? = response.body()
+                        Log.i("Response:","$weatherData")
+                    }else{
+                        val rc = response.code()
+                        Log.e("Errorr:","$rc")
+                    }
+                }
+
+                override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+                    Log.e("Errorr:","${t.message}")
+                }
+            }
+            )
         }
         else{
             Toast.makeText(this,"No internet connection",Toast.LENGTH_LONG).show()
