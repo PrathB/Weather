@@ -2,6 +2,7 @@ package com.test.weather
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.location.Location
@@ -30,10 +31,10 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private var mProgressDialog : Dialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -119,11 +120,14 @@ class MainActivity : AppCompatActivity() {
             val listCall : Call<WeatherResponse> = service
                 .getWeather(latitude,longitude,Constants.METRIC_UNIT,Constants.API_KEY)
 
+            showCustomProgressDialog()
+
             listCall.enqueue(object : Callback<WeatherResponse>{
                 override fun onResponse(
                     call: Call<WeatherResponse>,
                     response: Response<WeatherResponse>
                 ) {
+                    hideProgressDialog()
                     if(response.isSuccessful) {
                         val weatherData: WeatherResponse? = response.body()
                         Log.i("Response:","$weatherData")
@@ -134,6 +138,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+                    hideProgressDialog()
                     Log.e("Errorr:","${t.message}")
                 }
             }
@@ -141,6 +146,19 @@ class MainActivity : AppCompatActivity() {
         }
         else{
             Toast.makeText(this,"No internet connection",Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun showCustomProgressDialog(){
+        mProgressDialog = Dialog(this)
+        mProgressDialog!!.setContentView(R.layout.dialog_custom_progress)
+        mProgressDialog!!.show()
+    }
+
+    private fun hideProgressDialog(){
+        if(mProgressDialog!=null){
+            mProgressDialog!!.dismiss()
+            mProgressDialog = null
         }
     }
 }
