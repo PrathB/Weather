@@ -4,11 +4,11 @@ import java.io.Serializable
 
 data class Main (
     val temp: Double,
-    val feelsLike: Double,
-    val tempMin: Double,
-    val tempMax: Double,
+    val feels_like: Double,
+    val temp_min: Double,
+    val temp_max: Double,
     val pressure: Double,
     val humidity: Int,
-    val seaLevel:Int,
-    val grndLevel:Int,
+    val sea_level:Int,
+    val grnd_level:Int,
 ):Serializable

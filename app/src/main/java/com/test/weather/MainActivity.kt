@@ -130,6 +130,7 @@ class MainActivity : AppCompatActivity() {
                     hideProgressDialog()
                     if(response.isSuccessful) {
                         val weatherData: WeatherResponse? = response.body()
+                        setupUI(weatherData!!)
                         Log.i("Response:","$weatherData")
                     }else{
                         val rc = response.code()
@@ -160,5 +161,21 @@ class MainActivity : AppCompatActivity() {
             mProgressDialog!!.dismiss()
             mProgressDialog = null
         }
+    }
+
+    private fun setupUI(weatherData : WeatherResponse){
+        for(weather in weatherData.weather){
+            var desc : String = weather.description
+            desc = desc.uppercase()
+            binding?.tvDescription?.text = desc
+        }
+        binding?.tvTemp?.text = "${weatherData.main.temp}°ᶜ"
+        binding?.tvMaxMinValue?.text = "${weatherData.main.temp_max}°/${weatherData.main.temp_min}° C"
+        binding?.tvFeelsLikeValue?.text = "${weatherData.main.feels_like}°C"
+
+        binding?.tvWindSpeed?.text = "${weatherData.wind.speed} m/s"
+        binding?.tvHumidity?.text = "${weatherData.main.humidity} %"
+        binding?.tvPressure?.text = "${weatherData.main.pressure} hPa"
+        binding?.tvVisibility?.text = "${weatherData.visibility} m"
     }
 }

@@ -4,6 +4,6 @@ import java.io.Serializable
 
 data class Wind (
     val speed: Double,
-    val degree: Int,
+    val deg: Int,
     val gust: Double
 ):Serializable
