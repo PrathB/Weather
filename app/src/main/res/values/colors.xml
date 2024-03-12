@@ -5,8 +5,9 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="main_screen_content_background_color">#EFEFEF</color>
+    <color name="main_screen_content_background_color">#90BDCF</color>
     <color name="primary_text_color">#363A43</color>
     <color name="secondary_text_color">#7A8089</color>
-    <color name="divider_background">#e0e0e0</color>
+    <color name="divider_background">#7C7C7C</color>
+    <color name="cv_bg_color">#AFAFAF</color>
 </resources>

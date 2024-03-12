@@ -15,11 +15,11 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:textColor="@color/primary_text_color"
-        android:textSize="@dimen/time_text_size"
+        android:textSize="@dimen/value_text_size"
         tools:text="2:00 PM" />
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_city_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
@@ -36,13 +36,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="@dimen/ll_margin_top"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="4"
             >
@@ -85,9 +86,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Max/Min :"
+                android:text="@string/max_min"
                 android:textColor="@color/primary_text_color"
                 android:textSize="@dimen/value_text_size"
+                android:textStyle="bold"
                 />
             <TextView
                 android:id="@+id/tv_max_min_value"
@@ -103,15 +105,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Real feel:"
+                android:text="@string/real_feel"
                 android:textColor="@color/primary_text_color"
                 android:textSize="@dimen/value_text_size"
+                android:textStyle="bold"
                 />
             <TextView
                 android:id="@+id/tv_feels_like_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:textColor="@color/primary_text_color"
                 android:textSize="@dimen/value_text_size"
@@ -130,7 +132,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="@dimen/cl_padding_horizontal"
         >
 
         <LinearLayout
@@ -141,12 +143,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:gravity="center"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="@dimen/ll_margin_vertical"
             >
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#AFAFAF"
+            app:cardBackgroundColor="@color/cv_bg_color"
             app:cardCornerRadius="@dimen/card_view_corner_radius"
             app:cardElevation="@dimen/card_view_elevation"
             >
@@ -155,23 +157,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="5dp">
+                android:paddingHorizontal="@dimen/cv_ll_padding_horizontal"
+                android:paddingVertical="@dimen/cv_ll_padding_vertical">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
                 android:src="@drawable/wind"
-                android:scaleType="centerCrop"
-                android:layout_marginEnd="5dp"/>
+                android:scaleType="fitCenter"
+                android:layout_marginEnd="@dimen/icon_margin_end"
+                android:contentDescription="@string/weather_icon"/>
 
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wind"
-                android:textSize="24sp"
-                android:layout_weight="10"
+                android:text="@string/wind"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/detail_title_size"
+                android:textStyle="bold"
                 />
 
             </LinearLayout>
@@ -181,26 +185,27 @@
             android:id="@+id/tv_wind_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3.4 m/s"
-            android:textSize="22sp"
-            android:layout_marginTop="5dp"/>
+            tools:text="@string/_3_4_m_s"
+            android:textColor="@color/primary_text_color"
+            android:textSize="@dimen/value_text_size"
+            android:layout_marginTop="@dimen/tv_details_margin_top"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_visbility"
+            android:id="@+id/ll_visibility"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:gravity="center"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="@dimen/ll_margin_vertical"
             >
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#AFAFAF"
+                app:cardBackgroundColor="@color/cv_bg_color"
                 app:cardCornerRadius="@dimen/card_view_corner_radius"
                 app:cardElevation="@dimen/card_view_elevation"
                 >
@@ -209,23 +214,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="5dp">
+                    android:paddingHorizontal="@dimen/cv_ll_padding_horizontal"
+                    android:paddingVertical="@dimen/cv_ll_padding_vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
                         android:src="@drawable/humidity"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="5dp"/>
+                        android:scaleType="fitCenter"
+                        android:layout_marginEnd="@dimen/icon_margin_end"
+                        android:contentDescription="@string/weather_icon" />
 
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Humidity"
-                        android:textSize="24sp"
-                        android:layout_weight="10"
+                        android:text="@string/humidity"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="@dimen/detail_title_size"
+                        android:textStyle="bold"
                         />
 
                 </LinearLayout>
@@ -235,9 +242,10 @@
                 android:id="@+id/tv_humidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="64%"
-                android:textSize="22sp"
-                android:layout_marginTop="5dp"/>
+                tools:text="64%"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/value_text_size"
+                android:layout_marginTop="@dimen/tv_details_margin_top"/>
 
         </LinearLayout>
 
@@ -248,12 +256,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_pressure"
             android:gravity="center"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="@dimen/ll_margin_vertical"
             >
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#AFAFAF"
+                app:cardBackgroundColor="@color/cv_bg_color"
                 app:cardCornerRadius="@dimen/card_view_corner_radius"
                 app:cardElevation="@dimen/card_view_elevation"
                 >
@@ -262,18 +270,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="5dp">
-
-
+                    android:paddingHorizontal="@dimen/cv_ll_padding_horizontal"
+                    android:paddingVertical="@dimen/cv_ll_padding_vertical">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pressure"
-                        android:textSize="24sp"
-                        android:layout_weight="10"
-                        />
+                        android:text="@string/pressure"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="@dimen/detail_title_size"
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -282,9 +288,10 @@
                 android:id="@+id/tv_pressure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1015 hPa"
-                android:textSize="22sp"
-                android:layout_marginTop="5dp"/>
+                tools:text="@string/_1015_hpa"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/value_text_size"
+                android:layout_marginTop="@dimen/tv_details_margin_top"/>
 
         </LinearLayout>
 
@@ -293,14 +300,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_visbility"
+            app:layout_constraintTop_toBottomOf="@id/ll_visibility"
             android:gravity="center"
-            android:layout_marginVertical="5dp"
+            android:layout_marginVertical="@dimen/ll_margin_vertical"
             >
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#AFAFAF"
+                app:cardBackgroundColor="@color/cv_bg_color"
                 app:cardCornerRadius="@dimen/card_view_corner_radius"
                 app:cardElevation="@dimen/card_view_elevation"
                 >
@@ -309,15 +316,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="10dp">
+                    android:paddingHorizontal="@dimen/cv_ll_padding_horizontal"
+                    android:paddingVertical="@dimen/cv_ll_padding_vertical">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Visibility"
-                        android:textSize="24sp"
-                        android:layout_weight="10"
+                        android:text="@string/visibility"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="@dimen/detail_title_size"
+                        android:textStyle="bold"
                         />
 
                 </LinearLayout>
@@ -327,9 +335,10 @@
                 android:id="@+id/tv_visibility"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10000 m"
-                android:textSize="22sp"
-                android:layout_marginTop="5dp"/>
+                tools:text="@string/_10000_m"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/value_text_size"
+                android:layout_marginTop="@dimen/tv_details_margin_top"/>
 
         </LinearLayout>
 

@@ -169,13 +169,37 @@ class MainActivity : AppCompatActivity() {
             desc = desc.uppercase()
             binding?.tvDescription?.text = desc
         }
-        binding?.tvTemp?.text = "${weatherData.main.temp}°ᶜ"
-        binding?.tvMaxMinValue?.text = "${weatherData.main.temp_max}°/${weatherData.main.temp_min}° C"
-        binding?.tvFeelsLikeValue?.text = "${weatherData.main.feels_like}°C"
+        binding?.tvCityName?.text = weatherData.name
+        binding?.tvTemp?.text = buildString {
+            append(weatherData.main.temp.toInt().toString())
+            append("°ᶜ")
+        }
+        binding?.tvMaxMinValue?.text = buildString {
+            append(weatherData.main.temp_max.toInt())
+            append("°/")
+            append(weatherData.main.temp_min.toInt())
+            append("° C")
+        }
+        binding?.tvFeelsLikeValue?.text = buildString {
+            append(weatherData.main.feels_like.toInt())
+            append("°C")
+        }
 
-        binding?.tvWindSpeed?.text = "${weatherData.wind.speed} m/s"
-        binding?.tvHumidity?.text = "${weatherData.main.humidity} %"
-        binding?.tvPressure?.text = "${weatherData.main.pressure} hPa"
-        binding?.tvVisibility?.text = "${weatherData.visibility} m"
+        binding?.tvWindSpeed?.text = buildString {
+            append(weatherData.wind.speed)
+            append(" m/s")
+        }
+        binding?.tvHumidity?.text = buildString {
+            append(weatherData.main.humidity)
+            append(" %")
+        }
+        binding?.tvPressure?.text = buildString {
+            append(weatherData.main.pressure)
+            append(" hPa")
+        }
+        binding?.tvVisibility?.text = buildString {
+            append(weatherData.visibility)
+            append(" m")
+        }
     }
 }
