@@ -30,6 +30,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
@@ -198,8 +202,17 @@ class MainActivity : AppCompatActivity() {
             append(" hPa")
         }
         binding?.tvVisibility?.text = buildString {
-            append(weatherData.visibility)
-            append(" m")
+            append(weatherData.visibility.toDouble()/1000)
+            append(" Km")
         }
+        binding?.tvSunrise?.text = unixConverter(weatherData.sys.sunrise)
+        binding?.tvSunset?.text = unixConverter(weatherData.sys.sunset)
+    }
+
+    private fun unixConverter(timex: Long) : String{
+        val date = Date(timex*1000L)
+        val sdf = SimpleDateFormat("hh:mm a", Locale.UK)
+        sdf.timeZone = TimeZone.getDefault()
+        return sdf.format(date)
     }
 }

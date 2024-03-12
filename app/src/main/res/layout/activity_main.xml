@@ -185,7 +185,7 @@
             android:id="@+id/tv_wind_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="@string/_3_4_m_s"
+            tools:text="3.4 m/s"
             android:textColor="@color/primary_text_color"
             android:textSize="@dimen/value_text_size"
             android:layout_marginTop="@dimen/tv_details_margin_top"/>
@@ -288,7 +288,7 @@
                 android:id="@+id/tv_pressure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@string/_1015_hpa"
+                tools:text="1015 hPa"
                 android:textColor="@color/primary_text_color"
                 android:textSize="@dimen/value_text_size"
                 android:layout_marginTop="@dimen/tv_details_margin_top"/>
@@ -335,7 +335,7 @@
                 android:id="@+id/tv_visibility"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@string/_10000_m"
+                tools:text="10 Km"
                 android:textColor="@color/primary_text_color"
                 android:textSize="@dimen/value_text_size"
                 android:layout_marginTop="@dimen/tv_details_margin_top"/>
@@ -349,8 +349,83 @@
         android:layout_height="@dimen/divider_height"
         android:layout_margin="@dimen/divider_margin"
         android:background="@color/divider_background" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/ll_margin_top"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/icon_sun_size"
+                android:layout_height="@dimen/icon_sun_size"
+                android:src="@drawable/sunrise"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/sunrise_icon"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sunrise"
+                android:textSize="@dimen/detail_title_size"
+                android:textColor="@color/primary_text_color"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/tv_sunrise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text ="6:00 am"
+                android:textSize="@dimen/value_text_size"
+                android:textColor="@color/primary_text_color"
+                />
 
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/icon_sun_size"
+                android:layout_height="@dimen/icon_sun_size"
+                android:src="@drawable/sunset"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/sunset_icon"
+                />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sunset"
+                android:textSize="@dimen/detail_title_size"
+                android:textColor="@color/primary_text_color"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/tv_sunset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text ="6:00 pm"
+                android:textSize="@dimen/value_text_size"
+                android:textColor="@color/primary_text_color"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

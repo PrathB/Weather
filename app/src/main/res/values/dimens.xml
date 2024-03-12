@@ -4,7 +4,7 @@
     <dimen name="progress_bar_size">50dp</dimen>
     <dimen name="progress_bar_marginBottom">10dp</dimen>
     <dimen name="progress_bar_text_size">16sp</dimen>
-    <dimen name="main_screen_content_padding">16dp</dimen>
+    <dimen name="main_screen_content_padding">18dp</dimen>
     <dimen name="card_view_marginStartEnd">5dp</dimen>
     <dimen name="card_view_marginTop">16dp</dimen>
     <dimen name="card_view_corner_radius">16dp</dimen>
@@ -22,11 +22,12 @@
     <dimen name="desc_text_size">32sp</dimen>
     <dimen name ="ll_margin_top">20dp</dimen>
     <dimen name="cl_padding_horizontal">20dp</dimen>
-    <dimen name="ll_margin_vertical">10dp</dimen>
+    <dimen name="ll_margin_vertical">16dp</dimen>
     <dimen name="icon_margin_end">5dp</dimen>
     <dimen name="cv_ll_padding_horizontal">10dp</dimen>
     <dimen name="cv_ll_padding_vertical">5dp</dimen>
     <dimen name="icon_size">34dp</dimen>
     <dimen name="tv_details_margin_top">5dp</dimen>
     <dimen name="detail_title_size">24sp</dimen>
+    <dimen name="icon_sun_size">50dp</dimen>
 </resources>

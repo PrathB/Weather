@@ -5,11 +5,12 @@
     <string name="max_min">Max/Min :</string>
     <string name="real_feel">Real feel:</string>
     <string name="wind">Wind</string>
-    <string name="_3_4_m_s">3.4 m/s</string>
     <string name="humidity">Humidity</string>
-    <string name="_1015_hpa">1015 hPa</string>
     <string name="visibility">Visibility</string>
-    <string name="_10000_m">10000 m</string>
     <string name="pressure">Pressure</string>
     <string name="weather_icon">weather icon</string>
+    <string name="sunset">Sunset</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunrise_icon">sunrise icon</string>
+    <string name="sunset_icon">sunset icon</string>
 </resources>
