@@ -14,6 +14,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Granularity
 import com.google.android.gms.location.LocationCallback
@@ -172,6 +173,74 @@ class MainActivity : AppCompatActivity() {
             var desc : String = weather.description
             desc = desc.uppercase()
             binding?.tvDescription?.text = desc
+
+            when(weather.icon){
+                "01d" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.sunny)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_clear_day))
+                }
+                "01n" -> {
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_clear_night))
+                }
+
+                "02d" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.cloud)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_day))
+                }
+
+                "02n" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.cloud)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_night))
+                }
+                "03d" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.cloud)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_day))
+                }
+                "03n" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.cloud)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_night))
+                }
+                "04d" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.cloud)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_day))
+                }
+                "04n" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.cloud)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_night))
+                }
+                "09d" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.rain)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_day))
+                }
+                "09n" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.rain)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_night))
+                }
+                "010d" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.rain)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                }
+                "010n" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.rain)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                }
+                "011d" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.storm)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                }
+                "011n" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.storm)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                }
+                "013d" -> {
+                    binding?.ivMain?.setImageResource(R.drawable.snowflake)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                }
+                "013n" ->{
+                    binding?.ivMain?.setImageResource(R.drawable.snowflake)
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                }
+            }
         }
         binding?.tvCityName?.text = weatherData.name
         binding?.tvTemp?.text = buildString {

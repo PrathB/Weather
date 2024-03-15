@@ -5,9 +5,12 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="main_screen_content_background_color">#6791A1</color>
+    <color name="bg_clear_day">#87CEEB</color>
+    <color name="bg_clear_night">#2E4482</color>
+    <color name="bg_cloudy_day">#C7C4BF</color>
+    <color name="bg_cloudy_night">#8B8A86</color>
+    <color name="bg_thunderstorm">#4C4C4C</color>
     <color name="primary_text_color">#FFFFFF</color>
     <color name="secondary_text_color">#CECECE</color>
-    <color name="divider_background">#4C4C4C</color>
     <color name="cv_bg_color">#AAAAAA</color>
 </resources>
