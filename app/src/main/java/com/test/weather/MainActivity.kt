@@ -278,6 +278,7 @@ class MainActivity : AppCompatActivity() {
         binding?.tvSunset?.text = unixConverter(weatherData.sys.sunset)
     }
 
+
     private fun unixConverter(timex: Long) : String{
         val date = Date(timex*1000L)
         val sdf = SimpleDateFormat("hh:mm a", Locale.UK)
