@@ -1,4 +1,4 @@
-package com.test.weather
+package com.test.weather.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -11,6 +11,8 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +25,8 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.permissionx.guolindev.PermissionX
+import com.test.weather.Constants
+import com.test.weather.R
 import com.test.weather.databinding.ActivityMainBinding
 import com.test.weather.models.WeatherResponse
 import com.test.weather.network.WeatherService
@@ -68,6 +72,20 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.action_refresh ->{
+                requestLocationData()
+                true
+            }else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun showEnableLocationDialog() {
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.setTitle("Location Services Disabled")
@@ -109,10 +127,9 @@ class MainActivity : AppCompatActivity() {
             val latitude = mLastLocation?.latitude
             val longitude = mLastLocation?.longitude
 
-            Log.i("Latitude: ","$latitude")
-            Log.i("Longitude: ","$longitude")
-
             getLocationWeatherDetails(latitude!!,longitude!!)
+
+            mFusedLocationClient.removeLocationUpdates(this)
         }
     }
 
@@ -123,7 +140,7 @@ class MainActivity : AppCompatActivity() {
                 .build()
             val service: WeatherService = retrofit.create<WeatherService>(WeatherService::class.java)
             val listCall : Call<WeatherResponse> = service
-                .getWeather(latitude,longitude,Constants.METRIC_UNIT,Constants.API_KEY)
+                .getWeather(latitude,longitude, Constants.METRIC_UNIT, Constants.API_KEY)
 
             showCustomProgressDialog()
 
@@ -169,6 +186,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI(weatherData : WeatherResponse){
+        binding?.tvTime?.text = getCurrTIme()
         for(weather in weatherData.weather){
             var desc : String = weather.description
             desc = desc.uppercase()
@@ -177,68 +195,100 @@ class MainActivity : AppCompatActivity() {
             when(weather.icon){
                 "01d" -> {
                     binding?.ivMain?.setImageResource(R.drawable.sunny)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_clear_day))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_clear_day
+                    ))
                 }
                 "01n" -> {
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_clear_night))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_clear_night
+                    ))
                 }
 
                 "02d" -> {
                     binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_day))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_cloudy_day
+                    ))
                 }
 
                 "02n" -> {
                     binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_night))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_cloudy_night
+                    ))
                 }
                 "03d" -> {
                     binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_day))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_cloudy_day
+                    ))
                 }
                 "03n" -> {
                     binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_night))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_cloudy_night
+                    ))
                 }
                 "04d" -> {
                     binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_day))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_cloudy_day
+                    ))
                 }
                 "04n" -> {
                     binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_night))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_cloudy_night
+                    ))
                 }
                 "09d" -> {
                     binding?.ivMain?.setImageResource(R.drawable.rain)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_day))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_cloudy_day
+                    ))
                 }
                 "09n" -> {
                     binding?.ivMain?.setImageResource(R.drawable.rain)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_cloudy_night))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_cloudy_night
+                    ))
                 }
                 "010d" -> {
                     binding?.ivMain?.setImageResource(R.drawable.rain)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_thunderstorm
+                    ))
                 }
                 "010n" -> {
                     binding?.ivMain?.setImageResource(R.drawable.rain)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_thunderstorm
+                    ))
                 }
                 "011d" -> {
                     binding?.ivMain?.setImageResource(R.drawable.storm)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_thunderstorm
+                    ))
                 }
                 "011n" -> {
                     binding?.ivMain?.setImageResource(R.drawable.storm)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_thunderstorm
+                    ))
                 }
                 "013d" -> {
                     binding?.ivMain?.setImageResource(R.drawable.snowflake)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_thunderstorm
+                    ))
                 }
                 "013n" ->{
                     binding?.ivMain?.setImageResource(R.drawable.snowflake)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_thunderstorm))
+                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                        R.color.bg_thunderstorm
+                    ))
                 }
             }
         }
@@ -278,7 +328,12 @@ class MainActivity : AppCompatActivity() {
         binding?.tvSunset?.text = unixConverter(weatherData.sys.sunset)
     }
 
-
+    private fun getCurrTIme() : String{
+        val date = Date()
+        val sdf = SimpleDateFormat("hh:mm a", Locale.UK)
+        sdf.timeZone = TimeZone.getDefault()
+        return sdf.format(date)
+    }
     private fun unixConverter(timex: Long) : String{
         val date = Date(timex*1000L)
         val sdf = SimpleDateFormat("hh:mm a", Locale.UK)
