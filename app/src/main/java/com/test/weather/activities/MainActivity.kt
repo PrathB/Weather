@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -24,6 +25,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.gson.Gson
 import com.permissionx.guolindev.PermissionX
 import com.test.weather.Constants
 import com.test.weather.R
@@ -43,6 +45,7 @@ import java.util.TimeZone
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private lateinit var mSharedPreferences: SharedPreferences
     private var mProgressDialog : Dialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +53,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding?.root)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        mSharedPreferences = getSharedPreferences(Constants.PREFERENCE_NAME,Context.MODE_PRIVATE)
+
+        setupUI()
 
         PermissionX.init(this)
             .permissions(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -152,7 +159,12 @@ class MainActivity : AppCompatActivity() {
                     hideProgressDialog()
                     if(response.isSuccessful) {
                         val weatherData: WeatherResponse? = response.body()
-                        setupUI(weatherData!!)
+                        val weatherDataJsonString : String = Gson().toJson(weatherData)
+                        val editor = mSharedPreferences.edit()
+                        editor.putString(Constants.WEATHER_RESPONSE_DATA,weatherDataJsonString)
+                        editor.apply()
+
+                        setupUI()
                         Log.i("Response:","$weatherData")
                     }else{
                         val rc = response.code()
@@ -185,150 +197,156 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupUI(weatherData : WeatherResponse){
-        binding?.tvTime?.text = getCurrTIme()
-        for(weather in weatherData.weather){
-            var desc : String = weather.description
-            desc = desc.uppercase()
-            binding?.tvDescription?.text = desc
+    private fun setupUI(){
+        binding?.tvTime?.text = getCurrTime()
 
-            when(weather.icon){
-                "01d" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.sunny)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_clear_day
-                    ))
-                }
-                "01n" -> {
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_clear_night
-                    ))
-                }
+        val weatherDataJsonString = mSharedPreferences.getString(Constants.WEATHER_RESPONSE_DATA,"")
+        if(!weatherDataJsonString.isNullOrEmpty()){
+            val weatherData = Gson().fromJson<WeatherResponse>(weatherDataJsonString,WeatherResponse::class.java)
+            for(weather in weatherData.weather){
+                var desc : String = weather.description
+                desc = desc.uppercase()
+                binding?.tvDescription?.text = desc
 
-                "02d" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_cloudy_day
-                    ))
-                }
+                when(weather.icon){
+                    "01d" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.sunny)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_clear_day
+                        ))
+                    }
+                    "01n" -> {
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_clear_night
+                        ))
+                    }
 
-                "02n" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_cloudy_night
-                    ))
-                }
-                "03d" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_cloudy_day
-                    ))
-                }
-                "03n" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_cloudy_night
-                    ))
-                }
-                "04d" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_cloudy_day
-                    ))
-                }
-                "04n" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.cloud)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_cloudy_night
-                    ))
-                }
-                "09d" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.rain)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_cloudy_day
-                    ))
-                }
-                "09n" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.rain)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_cloudy_night
-                    ))
-                }
-                "010d" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.rain)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_thunderstorm
-                    ))
-                }
-                "010n" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.rain)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_thunderstorm
-                    ))
-                }
-                "011d" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.storm)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_thunderstorm
-                    ))
-                }
-                "011n" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.storm)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_thunderstorm
-                    ))
-                }
-                "013d" -> {
-                    binding?.ivMain?.setImageResource(R.drawable.snowflake)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_thunderstorm
-                    ))
-                }
-                "013n" ->{
-                    binding?.ivMain?.setImageResource(R.drawable.snowflake)
-                    binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
-                        R.color.bg_thunderstorm
-                    ))
+                    "02d" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.cloud)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_cloudy_day
+                        ))
+                    }
+
+                    "02n" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.cloud)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_cloudy_night
+                        ))
+                    }
+                    "03d" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.cloud)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_cloudy_day
+                        ))
+                    }
+                    "03n" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.cloud)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_cloudy_night
+                        ))
+                    }
+                    "04d" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.cloud)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_cloudy_day
+                        ))
+                    }
+                    "04n" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.cloud)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_cloudy_night
+                        ))
+                    }
+                    "09d" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.rain)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_cloudy_day
+                        ))
+                    }
+                    "09n" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.rain)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_cloudy_night
+                        ))
+                    }
+                    "010d" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.rain)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_thunderstorm
+                        ))
+                    }
+                    "010n" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.rain)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_thunderstorm
+                        ))
+                    }
+                    "011d" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.storm)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_thunderstorm
+                        ))
+                    }
+                    "011n" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.storm)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_thunderstorm
+                        ))
+                    }
+                    "013d" -> {
+                        binding?.ivMain?.setImageResource(R.drawable.snowflake)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_thunderstorm
+                        ))
+                    }
+                    "013n" ->{
+                        binding?.ivMain?.setImageResource(R.drawable.snowflake)
+                        binding?.llMain?.setBackgroundColor(ContextCompat.getColor(this,
+                            R.color.bg_thunderstorm
+                        ))
+                    }
                 }
             }
-        }
-        binding?.tvCityName?.text = weatherData.name
-        binding?.tvTemp?.text = buildString {
-            append(weatherData.main.temp.toInt().toString())
-            append("°ᶜ")
-        }
-        binding?.tvMaxMinValue?.text = buildString {
-            append(weatherData.main.temp_max.toInt())
-            append("°/")
-            append(weatherData.main.temp_min.toInt())
-            append("° C")
-        }
-        binding?.tvFeelsLikeValue?.text = buildString {
-            append(weatherData.main.feels_like.toInt())
-            append("°C")
+            binding?.tvCityName?.text = weatherData.name
+            binding?.tvTemp?.text = buildString {
+                append(weatherData.main.temp.toInt().toString())
+                append("°ᶜ")
+            }
+            binding?.tvMaxMinValue?.text = buildString {
+                append(weatherData.main.temp_max.toInt())
+                append("°/")
+                append(weatherData.main.temp_min.toInt())
+                append("° C")
+            }
+            binding?.tvFeelsLikeValue?.text = buildString {
+                append(weatherData.main.feels_like.toInt())
+                append("°C")
+            }
+
+            binding?.tvWindSpeed?.text = buildString {
+                append(weatherData.wind.speed)
+                append(" m/s")
+            }
+            binding?.tvHumidity?.text = buildString {
+                append(weatherData.main.humidity)
+                append(" %")
+            }
+            binding?.tvPressure?.text = buildString {
+                append(weatherData.main.pressure)
+                append(" hPa")
+            }
+            binding?.tvVisibility?.text = buildString {
+                append(weatherData.visibility.toDouble()/1000)
+                append(" Km")
+            }
+            binding?.tvSunrise?.text = unixConverter(weatherData.sys.sunrise)
+            binding?.tvSunset?.text = unixConverter(weatherData.sys.sunset)
         }
 
-        binding?.tvWindSpeed?.text = buildString {
-            append(weatherData.wind.speed)
-            append(" m/s")
-        }
-        binding?.tvHumidity?.text = buildString {
-            append(weatherData.main.humidity)
-            append(" %")
-        }
-        binding?.tvPressure?.text = buildString {
-            append(weatherData.main.pressure)
-            append(" hPa")
-        }
-        binding?.tvVisibility?.text = buildString {
-            append(weatherData.visibility.toDouble()/1000)
-            append(" Km")
-        }
-        binding?.tvSunrise?.text = unixConverter(weatherData.sys.sunrise)
-        binding?.tvSunset?.text = unixConverter(weatherData.sys.sunset)
     }
 
-    private fun getCurrTIme() : String{
+    private fun getCurrTime() : String{
         val date = Date()
         val sdf = SimpleDateFormat("hh:mm a", Locale.UK)
         sdf.timeZone = TimeZone.getDefault()
